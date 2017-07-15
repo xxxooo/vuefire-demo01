@@ -67,3 +67,31 @@ var app = new Vue({
     })
   }
 })
+
+var app2 = new Vue({
+  el: '#app2',
+
+  data: {
+    s3Url: '',
+    message: '',
+    cities: null
+  },
+
+  methods: {
+    loadFromS3: function () {
+      this.$http.get(this.s3Url).then(response => {
+        // get body data
+        console.log(response)
+        this.cities = response.body
+      }, response => {
+        // error callback
+        console.log(response)
+        this.message2 = response.message
+      });
+    }
+  },
+
+  mounted () {
+    //
+  }
+})
