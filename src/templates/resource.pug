@@ -1,0 +1,17 @@
+template#viewResource
+  #appResource
+    h4
+      | Vue-resource from S3
+    div
+      .mdl-cell.mdl-cell--4-col.mdl-textfield.mdl-js-textfield
+        label.mdl-textfield__label(for='s3Url') S3 Url:
+        input#s3Url.mdl-textfield__input(type='text', v-model='s3Url')
+      .mdl-color-text--pink-A400(v-text='message')
+      button.mdl-button.mdl-js-button(@click='loadFromS3') Load from S3
+    table.mdl-data-table.mdl-js-data-table(v-if='cities')
+      thead
+        tr
+          th.mdl-data-table__cell--non-numeric(v-for='(value, key) in cities[0]', v-text='key')
+      tbody
+        tr(v-for='city in cities')
+          td.mdl-data-table__cell--non-numeric(v-for='value in city', v-text='value')

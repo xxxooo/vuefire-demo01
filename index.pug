@@ -1,13 +1,22 @@
-extends ./templates/layout.pug
+extends ./src/shared/layout.pug
 
 block styles_and_scripts
-  include ./templates/styles_and_scripts.pug
+  include ./src/shared/styles_and_scripts.pug
+  script(src="db/firebase.js")
+  script(src="js/components/root.js")
+  script(src="js/components/login.js")
+  script(src="js/components/books.js")
+  script(src="js/components/resource.js")
 
 block bottom_scripts
+  script(src="js/router.js")
   script(src="js/index.js")
 
 block title
   title My Page Title
 
-block content
-  include ./templates/index/main.pug
+block body_content
+  include ./src/templates/login.pug
+  include ./src/templates/books.pug
+  include ./src/templates/resource.pug
+  include ./src/main.pug
