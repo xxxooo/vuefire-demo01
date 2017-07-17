@@ -7,6 +7,7 @@ const appBooks = {
 
   data () {
     return {
+      auth: {},
       newBook: {
         title: '',
         author: '',
@@ -16,6 +17,11 @@ const appBooks = {
   },
 
   methods: {
+    checkAuth: function () {
+      if(!firebase.auth().currentUser) {
+        this.$router.push('/login')
+      }
+    },
     addBook: function () {
       if (this.newBook.title.length > 0) {
         booksRef.push(this.newBook)
@@ -27,6 +33,11 @@ const appBooks = {
     removeBook: function (book) {
       booksRef.child(book['.key']).remove()
       toastr.success('Book removed successfully')
-    },
+    }
+  },
+
+  created () {
+    this.auth = firebase.auth()
+    this.checkAuth()
   }
 }

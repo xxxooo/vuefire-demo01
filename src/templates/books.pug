@@ -1,5 +1,9 @@
 template#viewBooks
   #appBooks
+    div(v-if='auth.currentUser')
+      router-link.mdl-button.mdl-js-button(to='logout') Sign Out
+    div(v-else)
+      router-link.mdl-button.mdl-js-button(to='/login') Sign In
     .mdl-card.card-wide.mdl-shadow--4dp
       div
         h3.mdl-card__title-text Add New Books
