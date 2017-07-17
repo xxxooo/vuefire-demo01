@@ -1,6 +1,6 @@
 // js for index.pug
 
-var config = {
+const config = {
   apiKey: 'AIzaSyAYorRrVZ5wpOX69Vyz30UoY-KL8IdQ-Hw',
   authDomain: 'monkey-dd.firebaseapp.com',
   databaseURL: 'https://monkey-dd.firebaseio.com',
@@ -11,43 +11,24 @@ var config = {
 
 firebase.initializeApp(config)
 var booksRef = firebase.database().ref('books')
-var app = new Vue({
-  el: '#app',
 
-  firebase: {
-    books: booksRef
-  },
+const appLogin = {
+  template: '#viewLogin',
 
-  data: {
-    user: {
-      email: '',
-      pass: ''
-    },
-    auth: {},
-    message: '',
-    newBook: {
-      title: '',
-      author: '',
-      url: 'http://'
+  data () {
+    return {
+      user: {
+        email: '',
+        pass: ''
+      },
+      auth: {},
+      message: ''
     }
   },
 
   methods: {
-    addBook: function () {
-      if (this.newBook.title.length > 0) {
-        booksRef.push(this.newBook)
-        this.newBook.title = ''
-        this.newBook.author = ''
-        this.newBook.url = 'http://'
-      }
-    },
-    removeBook: function (book) {
-      booksRef.child(book['.key']).remove()
-      toastr.success('Book removed successfully')
-    },
     signIn: function () {
-      const promise = this.auth.signInWithEmailAndPassword(this.user.email, this.user.pass)
-      promise
+      this.auth.signInWithEmailAndPassword(this.user.email, this.user.pass)
       .then(() => { this.message = '' })
       .catch(e => {
         console.log(e)
@@ -66,15 +47,50 @@ var app = new Vue({
       setTimeout(() => {componentHandler.upgradeDom()}, 0)
     })
   }
-})
+}
 
-var app2 = new Vue({
-  el: '#app2',
+const appBooks = {
+  template: '#viewBooks',
 
-  data: {
-    s3Url: '',
-    message: '',
-    cities: null
+  firebase: {
+    books: booksRef
+  },
+
+  data () {
+    return {
+      newBook: {
+        title: '',
+        author: '',
+        url: 'http://'
+      }
+    }
+  },
+
+  methods: {
+    addBook: function () {
+      if (this.newBook.title.length > 0) {
+        booksRef.push(this.newBook)
+        this.newBook.title = ''
+        this.newBook.author = ''
+        this.newBook.url = 'http://'
+      }
+    },
+    removeBook: function (book) {
+      booksRef.child(book['.key']).remove()
+      toastr.success('Book removed successfully')
+    },
+  }
+}
+
+const appResource = {
+  template: '#viewResource',
+
+  data () {
+    return {
+      s3Url: '',
+      message: '',
+      cities: null
+    }
   },
 
   methods: {
@@ -93,9 +109,26 @@ var app2 = new Vue({
         this.message = 'Please enter Url...'
       }
     }
-  },
+  }
+}
 
-  mounted () {
-    //
+const root = { template: '<h2>Hello!</h2>' }
+
+const router = new VueRouter({
+  routes: [
+    { path: '/', component: root },
+    { path: '/login', component: appLogin },
+    { path: '/books', component: appBooks },
+    { path: '/resource', component: appResource }
+  ]
+})
+
+const app = new Vue({
+  el: '#app',
+  router: router,
+  watch: {
+    $route: function () {
+      setTimeout(() => {componentHandler.upgradeDom()}, 0)
+    }
   }
 })

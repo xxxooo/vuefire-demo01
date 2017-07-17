@@ -1,11 +1,20 @@
-#app.container
-  .page-header
-    h1
-      | Vue.js 2 & Firebase example
-      
+
+template#viewLogin
   div(v-if='auth.currentUser')
-    div(v-if='auth.currentUser')
-      button.mdl-button.mdl-js-button(@click='signOut') Sign Out
+    button.mdl-button.mdl-js-button(@click='signOut') Sign Out
+  .mdl-card.mdl-shadow--4dp(v-else)
+    .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+      input#email.mdl-textfield__input(type='text', v-model='user.email')
+      label.mdl-textfield__label(for='email') email
+    .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+      input#password.mdl-textfield__input(type='password', v-model='user.pass')
+      label.mdl-textfield__label(for='password') password
+    .mdl-color-text--pink-A400(v-text='message')
+    #signIn
+      button.mdl-button.mdl-js-button(@click='signIn') Sign In
+
+template#viewBooks
+  #appBooks
     .mdl-card.card-wide.mdl-shadow--4dp
       div
         h3.mdl-card__title-text Add New Books
@@ -42,32 +51,31 @@
                 a
                   i.material-icons(v-on:click='removeBook(book)') delete
 
-  .mdl-card.mdl-shadow--4dp(v-else)
-    .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
-      input#email.mdl-textfield__input(type='text', v-model='user.email')
-      label.mdl-textfield__label(for='email') email
-    .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
-      input#password.mdl-textfield__input(type='password', v-model='user.pass')
-      label.mdl-textfield__label(for='password') password
-    .mdl-color-text--pink-A400(v-text='message')
-    #signIn
-      button.mdl-button.mdl-js-button(@click='signIn') Sign In
-      
-hr
+template#viewResource
+  #appResource
+    h4
+      | Vue-resource from S3
+    div
+      .mdl-cell.mdl-cell--4-col.mdl-textfield.mdl-js-textfield
+        label.mdl-textfield__label(for='s3Url') S3 Url:
+        input#s3Url.mdl-textfield__input(type='text', v-model='s3Url')
+      .mdl-color-text--pink-A400(v-text='message')
+      button.mdl-button.mdl-js-button(@click='loadFromS3') Load from S3
+    table.mdl-data-table.mdl-js-data-table(v-if='cities')
+      thead
+        tr
+          th.mdl-data-table__cell--non-numeric(v-for='(value, key) in cities[0]', v-text='key')
+      tbody
+        tr(v-for='city in cities')
+          td.mdl-data-table__cell--non-numeric(v-for='value in city', v-text='value')
 
-#app2.container
-  h2
-    | Vue-resource from S3
-  div
-    .mdl-cell.mdl-cell--4-col.mdl-textfield.mdl-js-textfield
-      label.mdl-textfield__label(for='s3Url') S3 Url:
-      input#s3Url.mdl-textfield__input(type='text', v-model='s3Url')
-    .mdl-color-text--pink-A400(v-text='message')
-    button.mdl-button.mdl-js-button(@click='loadFromS3') Load from S3
-  table.mdl-data-table.mdl-js-data-table(v-if='cities')
-    thead
-      tr
-        th.mdl-data-table__cell--non-numeric(v-for='(value, key) in cities[0]', v-text='key')
-    tbody
-      tr(v-for='city in cities')
-        td.mdl-data-table__cell--non-numeric(v-for='value in city', v-text='value')
+#app.container
+  .page-header
+    h1
+      | Vue.js 2 & Firebase example
+    div
+      router-link(to='/login') Login
+      router-link(to='/books') Books
+      router-link(to='/resource') Resource
+    hr
+    router-view

@@ -15,14 +15,27 @@
     <title>My Page Title</title>
   </head>
   <body>
-    <div class="container" id="app">
-      <div class="page-header">
-        <h1>Vue.js 2 & Firebase example</h1>
-      </div>
+    <template id="viewLogin">
       <div v-if="auth.currentUser">
-        <div v-if="auth.currentUser">
-          <button class="mdl-button mdl-js-button" @click="signOut">Sign Out</button>
+        <button class="mdl-button mdl-js-button" @click="signOut">Sign Out</button>
+      </div>
+      <div class="mdl-card mdl-shadow--4dp" v-else>
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+          <input class="mdl-textfield__input" id="email" type="text" v-model="user.email">
+          <label class="mdl-textfield__label" for="email">email</label>
         </div>
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+          <input class="mdl-textfield__input" id="password" type="password" v-model="user.pass">
+          <label class="mdl-textfield__label" for="password">password</label>
+        </div>
+        <div class="mdl-color-text--pink-A400" v-text="message"></div>
+        <div id="signIn">
+          <button class="mdl-button mdl-js-button" @click="signIn">Sign In</button>
+        </div>
+      </div>
+    </template>
+    <template id="viewBooks">
+      <div id="appBooks">
         <div class="mdl-card card-wide mdl-shadow--4dp">
           <div>
             <h3 class="mdl-card__title-text">Add New Books</h3>
@@ -71,44 +84,43 @@
           </div>
         </div>
       </div>
-      <div class="mdl-card mdl-shadow--4dp" v-else>
-        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-          <input class="mdl-textfield__input" id="email" type="text" v-model="user.email">
-          <label class="mdl-textfield__label" for="email">email</label>
+    </template>
+    <template id="viewResource">
+      <div id="appResource">
+        <h4>Vue-resource from S3</h4>
+        <div>
+          <div class="mdl-cell mdl-cell--4-col mdl-textfield mdl-js-textfield">
+            <label class="mdl-textfield__label" for="s3Url">S3 Url:</label>
+            <input class="mdl-textfield__input" id="s3Url" type="text" v-model="s3Url">
+          </div>
+          <div class="mdl-color-text--pink-A400" v-text="message"></div>
+          <button class="mdl-button mdl-js-button" @click="loadFromS3">Load from S3</button>
         </div>
-        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-          <input class="mdl-textfield__input" id="password" type="password" v-model="user.pass">
-          <label class="mdl-textfield__label" for="password">password</label>
-        </div>
-        <div class="mdl-color-text--pink-A400" v-text="message"></div>
-        <div id="signIn">
-          <button class="mdl-button mdl-js-button" @click="signIn">Sign In</button>
-        </div>
+        <table class="mdl-data-table mdl-js-data-table" v-if="cities">
+          <thead>
+            <tr>
+              <th class="mdl-data-table__cell--non-numeric" v-for="(value, key) in cities[0]" v-text="key"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="city in cities">
+              <td class="mdl-data-table__cell--non-numeric" v-for="value in city" v-text="value"></td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-    </div>
-    <hr>
-    <div class="container" id="app2">
-      <h2>Vue-resource from S3</h2>
-      <div>
-        <div class="mdl-cell mdl-cell--4-col mdl-textfield mdl-js-textfield">
-          <label class="mdl-textfield__label" for="s3Url">S3 Url:</label>
-          <input class="mdl-textfield__input" id="s3Url" type="text" v-model="s3Url">
+    </template>
+    <div class="container" id="app">
+      <div class="page-header">
+        <h1>Vue.js 2 & Firebase example</h1>
+        <div>
+          <router-link to="/login">Login</router-link>
+          <router-link to="/books">Books</router-link>
+          <router-link to="/resource">Resource</router-link>
         </div>
-        <div class="mdl-color-text--pink-A400" v-text="message"></div>
-        <button class="mdl-button mdl-js-button" @click="loadFromS3">Load from S3</button>
+        <hr>
+        <router-view></router-view>
       </div>
-      <table class="mdl-data-table mdl-js-data-table" v-if="cities">
-        <thead>
-          <tr>
-            <th class="mdl-data-table__cell--non-numeric" v-for="(value, key) in cities[0]" v-text="key"></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="city in cities">
-            <td class="mdl-data-table__cell--non-numeric" v-for="value in city" v-text="value"></td>
-          </tr>
-        </tbody>
-      </table>
     </div>
     <script src="js/index.js"></script>
   </body>
