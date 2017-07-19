@@ -7,5 +7,6 @@ const config = {
   storageBucket: 'monkey-dd.appspot.com',
   messagingSenderId: '622032691689'
 }
-
 firebase.initializeApp(config)
+
+const BooksRef = firebase.database().ref('books')

@@ -2,7 +2,7 @@ const appBooks = {
   template: '#viewBooks',
 
   firebase: {
-    books: firebase.database().ref('books')
+    books: BooksRef
   },
 
   data () {
@@ -39,5 +39,19 @@ const appBooks = {
   created () {
     this.auth = firebase.auth()
     this.checkAuth()
+  }
+}
+
+
+const appBook = {
+  template: '#viewBook',
+
+  firebase () {
+    return {
+      book: {
+        source: BooksRef.child(this.$route.params.id),
+        asObject: true
+      }
+    }
   }
 }

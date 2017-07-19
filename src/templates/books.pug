@@ -1,7 +1,7 @@
 template#viewBooks
   #appBooks
     div(v-if='auth.currentUser')
-      router-link.mdl-button.mdl-js-button(to='logout') Sign Out
+      router-link.mdl-button.mdl-js-button(to='/logout') Sign Out
     div(v-else)
       router-link.mdl-button.mdl-js-button(to='/login') Sign In
     .mdl-card.card-wide.mdl-shadow--4dp
@@ -26,6 +26,7 @@ template#viewBooks
         table.mdl-data-table.mdl-js-data-table
           thead
             tr
+              th.mdl-data-table__cell--non-numeric
               th.mdl-data-table__cell--non-numeric Title
               th.mdl-data-table__cell--non-numeric Author
               th.mdl-data-table__cell--non-numeric Url
@@ -33,9 +34,21 @@ template#viewBooks
           tbody
             tr(v-for='book in books')
               td.mdl-data-table__cell--non-numeric
+                router-link(:to="{path: book['.key']}" append)
+                  i.material-icons book
+              td.mdl-data-table__cell--non-numeric
                 a(v-bind:href='book.url') {{book.title}}
               td.mdl-data-table__cell--non-numeric {{book.author}}
               td.mdl-data-table__cell--non-numeric {{book.url}}
               td.mdl-data-table__cell--non-numeric
                 a
                   i.material-icons(v-on:click='removeBook(book)') delete
+
+
+template#viewBook
+  .mdl-card.mdl-shadow--4dp
+    table.mdl-data-table.mdl-js-data-table
+      tbody
+        tr(v-for='(value, key) in book')
+          td(v-text='key')
+          td(v-text='value')

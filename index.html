@@ -42,7 +42,7 @@
     <template id="viewBooks">
       <div id="appBooks">
         <div v-if="auth.currentUser">
-          <router-link class="mdl-button mdl-js-button" to="logout">Sign Out</router-link>
+          <router-link class="mdl-button mdl-js-button" to="/logout">Sign Out</router-link>
         </div>
         <div v-else>
           <router-link class="mdl-button mdl-js-button" to="/login">Sign In</router-link>
@@ -77,6 +77,7 @@
             <table class="mdl-data-table mdl-js-data-table">
               <thead>
                 <tr>
+                  <th class="mdl-data-table__cell--non-numeric"></th>
                   <th class="mdl-data-table__cell--non-numeric">Title</th>
                   <th class="mdl-data-table__cell--non-numeric">Author</th>
                   <th class="mdl-data-table__cell--non-numeric">Url</th>
@@ -85,6 +86,9 @@
               </thead>
               <tbody>
                 <tr v-for="book in books">
+                  <td class="mdl-data-table__cell--non-numeric">
+                    <router-link :to="{path: book['.key']}" append><i class="material-icons">book</i></router-link>
+                  </td>
                   <td class="mdl-data-table__cell--non-numeric"><a v-bind:href="book.url">{{book.title}}</a></td>
                   <td class="mdl-data-table__cell--non-numeric">{{book.author}}</td>
                   <td class="mdl-data-table__cell--non-numeric">{{book.url}}</td>
@@ -94,6 +98,18 @@
             </table>
           </div>
         </div>
+      </div>
+    </template>
+    <template id="viewBook">
+      <div class="mdl-card mdl-shadow--4dp">
+        <table class="mdl-data-table mdl-js-data-table">
+          <tbody>
+            <tr v-for="(value, key) in book">
+              <td v-text="key"></td>
+              <td v-text="value"></td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </template>
     <template id="viewResource">
