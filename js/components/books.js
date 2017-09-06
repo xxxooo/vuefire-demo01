@@ -24,15 +24,15 @@ const appBooks = {
     },
     addBook: function () {
       if (this.newBook.title.length > 0) {
-        booksRef.push(this.newBook)
+        BooksRef.push(this.newBook)
         this.newBook.title = ''
         this.newBook.author = ''
         this.newBook.url = 'http://'
       }
     },
     removeBook: function (book) {
-      booksRef.child(book['.key']).remove()
-      toastr.success('Book removed successfully')
+      BooksRef.child(book['.key']).remove()
+      console.log('Book removed successfully')
     }
   },
 
